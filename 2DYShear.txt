@@ -1,0 +1,50 @@
+/*
+Title: 2D Y Shear Transformation
+Description: Program to slant the polygon in the y direction
+*/
+
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h> // Include math library for mathematical operations
+
+// Main function
+void main() {
+    int gm; // Graphics mode variable
+    int gd = DETECT; // Graphics driver
+    int x1, x2, x3, y1, y2, y3; // Original triangle vertices
+    int ny1, ny2, ny3; // New y-coordinates after shearing
+    int shy; // Shearing factor for y-direction
+
+    // Print program header
+    printf("\t Program for 2 dimensional shearing");
+    printf("\n\t Enter the points of triangle");
+
+    // Input original triangle vertices
+    scanf("%d%d%d%d%d%d", &x1, &y1, &x2, &y2, &x3, &y3);
+
+    // Input shearing factor
+    printf("\n Enter the yshear factor");
+    scanf("%d", &shy);
+
+    // Initialize graphics mode
+    initgraph(&gd, &gm, "");
+
+    // Draw the original triangle
+    line(x1, y1, x2, y2); // Line from vertex 1 to vertex 2
+    line(x2, y2, x3, y3); // Line from vertex 2 to vertex 3
+    line(x3, y3, x1, y1); // Line from vertex 3 to vertex 1
+
+    // Calculate new y-coordinates after y-shearing
+    ny1 = y1 + shy * x1; // New y1 coordinate after y-shear
+    ny2 = y2 + shy * x2; // New y2 coordinate after y-shear
+    ny3 = y3 + shy * x3; // New y3 coordinate after y-shear
+
+    // Draw the sheared triangle
+    line(x1, ny1, x2, ny2); // Line from sheared vertex 1 to sheared vertex 2
+    line(x2, ny2, x3, ny3); // Line from sheared vertex 2 to sheared vertex 3
+    line(x3, ny3, x1, ny1); // Line from sheared vertex 3 back to sheared vertex 1
+
+    delay(50000); // Delay to view the result
+    closegraph(); // Close the graphics mode
+}

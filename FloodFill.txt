@@ -1,0 +1,45 @@
+/*
+Title: Flood Fill Algorithm
+Description: An algorithm to fill color into a polygon using an 8-connected approach
+*/
+
+#include <stdio.h>
+#include <graphics.h>
+
+// Function to perform flood fill
+void flood_fill(int x, int y, int old_c, int new_c) {
+    int c; // Variable to hold the current color of the pixel
+
+    // Get the color of the pixel at (x, y)
+    c = getpixel(x, y);
+    
+    // Check if the current pixel's color is the same as the old color
+    if (c == old_c) {
+        // Set the pixel to the new color
+        putpixel(x, y, new_c); // Change the pixel color
+        delay(1); // Small delay for visualization
+
+        // Recursively call flood_fill for 8-connected pixels
+        flood_fill(x + 1, y, old_c, new_c);   // Right
+        flood_fill(x - 1, y, old_c, new_c);   // Left
+        flood_fill(x + 1, y + 1, old_c, new_c); // Bottom-right
+        flood_fill(x - 1, y - 1, old_c, new_c); // Top-left
+        flood_fill(x, y + 1, old_c, new_c);   // Down
+        flood_fill(x, y - 1, old_c, new_c);   // Up
+        flood_fill(x - 1, y + 1, old_c, new_c); // Bottom-left
+        flood_fill(x + 1, y - 1, old_c, new_c); // Top-right
+    }
+}
+
+void main() {
+    int gd = DETECT, gm; // Graphics driver and mode
+    initgraph(&gd, &gm, ""); // Initialize graphics mode
+
+    // Draw a rectangle to serve as the polygon
+    rectangle(50, 50, 100, 100);
+
+    // Call flood_fill to fill the inside of the rectangle
+    flood_fill(70, 70, 0, 15); // Start filling from point (70, 70), old color 0 (black), new color 15 (white)
+
+    getch(); // Wait for a key press before closing
+}

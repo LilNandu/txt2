@@ -1,0 +1,50 @@
+/*
+Title: Boundary Fill Algorithm
+Description: An algorithm to fill color into a circle using a 4-connected approach
+*/
+
+#include <stdio.h>
+#include <graphics.h>
+
+// Function to perform boundary fill
+void boundaryfill(int x, int y, int f_color, int b_color) {
+    // Check if the current pixel is not the boundary color and not the fill color
+    if (getpixel(x, y) != b_color && getpixel(x, y) != f_color) {
+        // Set the current pixel to the fill color
+        putpixel(x, y, f_color); // Draw the pixel with fill color
+        delay(1); // Small delay for visualization
+
+        // Recursively call the function for 4-connected pixels
+        boundaryfill(x + 1, y, f_color, b_color); // Right
+        boundaryfill(x, y + 1, f_color, b_color); // Down
+        boundaryfill(x - 1, y, f_color, b_color); // Left
+        boundaryfill(x, y - 1, f_color, b_color); // Up
+    }
+}
+
+int main() {
+    int gm, gd = DETECT; // Graphics mode and driver
+    int radius; // Variable to hold the radius of the circle
+    int x, y; // Variables to hold the center coordinates of the circle
+
+    // Prompt user for the center point of the circle
+    printf("Enter x and y of center point of circle\n");
+    scanf("%d%d", &x, &y); // Read center coordinates
+
+    // Prompt user for the radius of the circle
+    printf("Enter radius of circle\n");
+    scanf("%d", &radius); // Read radius
+
+    // Initialize graphics mode
+    initgraph(&gd, &gm, "");
+
+    // Draw the circle with the specified center and radius
+    circle(x, y, radius);
+
+    // Call the boundary fill function starting from the center of the circle
+    boundaryfill(x, y, 4, 15); // Fill color 4, boundary color 15 (white)
+
+    // Close the graphics mode and exit the program
+    closegraph();
+    return 0; // End of main function
+}

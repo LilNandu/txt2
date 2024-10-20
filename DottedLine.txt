@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <graphics.h>
+#include <stdlib.h>
+
+int main(void) {
+    int gdriver = DETECT, gmode; // Graphics driver and mode
+    int i, x, y, x1, y1, x2, y2, dx, dy, length, xincr, yincr;
+
+    // Prompt user for starting coordinates of the line
+    printf("Enter the starting coordinates of line:\n");
+    scanf("%d%d", &x1, &y1); // Read starting coordinates
+
+    // Prompt user for ending coordinates of the line
+    printf("Enter the ending coordinates of line:\n");
+    scanf("%d%d", &x2, &y2); // Read ending coordinates
+
+    // Initialize the graphics mode
+    initgraph(&gdriver, &gmode, "");
+
+    // Calculate differences in x and y directions
+    dx = abs(x2 - x1);
+    dy = abs(y2 - y1);
+
+    // Determine the length of the line based on the larger difference
+    if (dx > dy)
+        length = dx; // Use dx if it's greater
+    else
+        length = dy; // Otherwise use dy
+
+    // Calculate increments for x and y directions
+    xincr = dx / length; // Change in x for each step
+    yincr = dy / length; // Change in y for each step
+
+    // Put the starting pixel on the screen
+    putpixel(x1, y1, 15); // 15 is the color for the pixel
+
+    // Set initial pixel position to starting coordinates
+    x = x1;
+    y = y1;
+
+    // Loop to draw the dotted line
+    for (i = 1; i <= length; i++) {
+        // Draw a pixel at every fifth step
+        if (i % 5 == 0) // Only draw if i is a multiple of 5
+            putpixel(x, y, 15); // Draw the pixel
+
+        // Increment the pixel positions
+        x = x + xincr; // Update x position
+        y = y + yincr; // Update y position
+    }
+
+    // Wait for a key press
+    getch();
+    
+    // Close the graphics mode
+    closegraph();
+    return 0; // Exit the program
+}

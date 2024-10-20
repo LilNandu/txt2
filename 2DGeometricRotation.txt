@@ -1,0 +1,58 @@
+/* Experiment No 7 – ii 
+   Title: 2D Rotation
+   Description: Program to rotate a triangle by a specified angle
+*/
+
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+
+// Main function
+void main() {
+    int gm; // Graphics mode variable
+    int gd = DETECT; // Graphics driver
+    int x1, x2, x3, y1, y2, y3; // Original triangle vertices
+    int nx1, nx2, nx3, ny1, ny2, ny3; // Rotated triangle vertices
+    int r; // Rotation angle in degrees
+    float t; // Angle in radians
+
+    // Print program header
+    printf("\t Program for basic rotations");
+    printf("\n\t Enter the points of triangle");
+
+    // Input original triangle vertices
+    scanf("%d%d%d%d%d%d", &x1, &y1, &x2, &y2, &x3, &y3);
+
+    // Input rotation angle
+    printf("\n Enter the angle of rotation");
+    scanf("%d", &r);
+
+    // Initialize graphics mode
+    initgraph(&gd, &gm, "");
+
+    // Draw the original triangle
+    line(x1, y1, x2, y2); // Line from vertex 1 to vertex 2
+    line(x2, y2, x3, y3); // Line from vertex 2 to vertex 3
+    line(x3, y3, x1, y1); // Line from vertex 3 to vertex 1
+
+    // Convert angle from degrees to radians
+    t = 3.14 * r / 180;
+
+    // Calculate new coordinates after rotation
+    // Using rotation matrix formulas
+    nx1 = abs(x1 * cos(t) - y1 * sin(t)); // New x1 coordinate
+    ny1 = abs(x1 * sin(t) + y1 * cos(t)); // New y1 coordinate
+    nx2 = abs(x2 * cos(t) - y2 * sin(t)); // New x2 coordinate
+    ny2 = abs(x2 * sin(t) + y2 * cos(t)); // New y2 coordinate
+    nx3 = abs(x3 * cos(t) - y3 * sin(t)); // New x3 coordinate
+    ny3 = abs(x3 * sin(t) + y3 * cos(t)); // New y3 coordinate
+
+    // Draw the rotated triangle
+    line(nx1, ny1, nx2, ny2); // Line from rotated vertex 1 to rotated vertex 2
+    line(nx2, ny2, nx3, ny3); // Line from rotated vertex 2 to rotated vertex 3
+    line(nx3, ny3, nx1, ny1); // Line from rotated vertex 3 to rotated vertex 1
+
+    delay(50000); // Delay to view the result
+    closegraph(); // Close the graphics mode
+}

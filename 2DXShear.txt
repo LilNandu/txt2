@@ -1,0 +1,50 @@
+/* Experiment 7 - iv
+   Title: 2D X Shear
+   Description: Program to perform x-shearing on a triangle
+*/
+
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+
+// Main function
+void main() {
+    int gm; // Graphics mode variable
+    int gd = DETECT; // Graphics driver
+    int x1, x2, x3, y1, y2, y3; // Original triangle vertices
+    int nx1, nx2, nx3; // New x-coordinates after shearing
+    int shx; // Shearing factor for x-direction
+
+    // Print program header
+    printf("\t Program for 2 dimensional shearing");
+    printf("\n\t Enter the points of triangle");
+
+    // Input original triangle vertices
+    scanf("%d%d%d%d%d%d", &x1, &y1, &x2, &y2, &x3, &y3);
+
+    // Input shearing factor
+    printf("\n Enter the xshear factor");
+    scanf("%d", &shx);
+
+    // Initialize graphics mode
+    initgraph(&gd, &gm, "");
+
+    // Draw the original triangle
+    line(x1, y1, x2, y2); // Line from vertex 1 to vertex 2
+    line(x2, y2, x3, y3); // Line from vertex 2 to vertex 3
+    line(x3, y3, x1, y1); // Line from vertex 3 to vertex 1
+
+    // Calculate new x-coordinates after shearing
+    nx1 = x1 + shx * y1; // New x1 coordinate after x-shear
+    nx2 = x2 + shx * y2; // New x2 coordinate after x-shear
+    nx3 = x3 + shx * y3; // New x3 coordinate after x-shear
+
+    // Draw the sheared triangle
+    line(nx1, y1, nx2, y2); // Line from sheared vertex 1 to sheared vertex 2
+    line(nx2, y2, y3, y3);  // Line from sheared vertex 2 to vertex 3
+    line(nx3, y3, nx1, y1); // Line from vertex 3 back to sheared vertex 1
+
+    delay(50000); // Delay to view the result
+    closegraph(); // Close the graphics mode
+}

@@ -1,0 +1,54 @@
+/*
+Experiment 7 - i
+Title: 2D Geometric Translation
+Description: Program to translate the polygon from one coordinate location to another
+*/
+
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+
+// Main function
+void main() {
+    int gm; // Graphics mode variable
+    int gd = DETECT; // Graphics driver
+    int x1, x2, x3, y1, y2, y3; // Original triangle vertices
+    int nx1, nx2, nx3, ny1, ny2, ny3; // Translated triangle vertices
+    int xt, yt; // Translation factors
+
+    // Print program header
+    printf("\t Program for basic translations");
+    printf("\n\t Enter the points of triangle");
+
+    // Input original triangle vertices
+    scanf("%d%d%d%d%d%d", &x1, &y1, &x2, &y2, &x3, &y3);
+
+    // Input translation factors
+    printf("\n Enter the translation factor");
+    scanf("%d%d", &xt, &yt);
+
+    // Initialize graphics mode
+    initgraph(&gd, &gm, "");
+
+    // Draw the original triangle
+    line(x1, y1, x2, y2); // Line from vertex 1 to vertex 2
+    line(x2, y2, x3, y3); // Line from vertex 2 to vertex 3
+    line(x3, y3, x1, y1); // Line from vertex 3 to vertex 1
+
+    // Calculate the new coordinates after translation
+    nx1 = x1 + xt; // New x1 coordinate
+    ny1 = y1 + yt; // New y1 coordinate
+    nx2 = x2 + xt; // New x2 coordinate
+    ny2 = y2 + yt; // New y2 coordinate
+    nx3 = x3 + xt; // New x3 coordinate
+    ny3 = y3 + yt; // New y3 coordinate
+
+    // Draw the translated triangle
+    line(nx1, ny1, nx2, ny2); // Line from translated vertex 1 to translated vertex 2
+    line(nx2, ny2, nx3, ny3); // Line from translated vertex 2 to translated vertex 3
+    line(nx3, ny3, nx1, ny1); // Line from translated vertex 3 to translated vertex 1
+
+    delay(50000); // Delay to view the result
+    closegraph(); // Close the graphics mode
+}

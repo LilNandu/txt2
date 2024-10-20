@@ -1,0 +1,114 @@
+/*
+Title: Line Clipping using Liang-Barsky Algorithm
+Description: Program to clip a line segment against a window boundary
+using the Liang-Barsky Line Clipping Algorithm
+*/
+
+#include <stdio.h>
+#include <graphics.h>
+
+void main() {
+    int x1, y1, x2, y2; // Coordinates of the line segment's endpoints
+    int xwmin, xwmax, ywmin, ywmax; // Window boundary coordinates
+    int dx, dy, k; // Differences in coordinates and loop variable
+    float p[4], q[4], r[4]; // Arrays for parameters of the clipping algorithm
+    float max, min, u1, u2; // Parameters to determine the clipping region
+    float xi, xii, yi, yii; // Clipped line segment coordinates
+    int gm, gd = DETECT; // Graphics mode variables
+
+    // Input starting coordinates of the line segment
+    printf("\nEnter the starting coordinates of the line segment:");
+    scanf("%d%d", &x1, &y1);
+
+    // Input ending coordinates of the line segment
+    printf("\nEnter the ending coordinates of the line segment:");
+    scanf("%d%d", &x2, &y2);
+
+    // Input lower left corner of the window boundary
+    printf("\nEnter the lower left corner of the window boundary:");
+    scanf("%d%d", &xwmin, &ywmin);
+
+    // Input upper right corner of the window boundary
+    printf("\nEnter the upper right corner of the window boundary:");
+    scanf("%d%d", &xwmax, &ywmax);
+
+    // Initialize graphics mode
+    initgraph(&gd, &gm, "");
+
+    // Calculate the differences in x and y coordinates
+    dx = x2 - x1;
+    dy = y2 - y1;
+
+    // Draw the original line segment
+    line(x1, y1, x2, y2);
+    // Draw the window boundary rectangle
+    rectangle(xwmin, ywmin, xwmax, ywmax);
+
+    // Initialize p and q parameters for the Liang-Barsky algorithm
+    p[0] = -dx; // p[0] corresponds to left boundary
+    q[0] = x1 - xwmin; // q[0] for left boundary
+    p[1] = dx; // p[1] corresponds to right boundary
+    q[1] = xwmax - x1; // q[1] for right boundary
+    p[2] = -dy; // p[2] corresponds to bottom boundary
+    q[2] = y1 - ywmin; // q[2] for bottom boundary
+    p[3] = dy; // p[3] corresponds to top boundary
+    q[3] = ywmax - y1; // q[3] for top boundary
+
+    // Check for trivial rejection
+    for (k = 0; k < 4; k++) {
+        if (p[k] == 0 && q[k] < 0) {
+            printf("Line is outside the parallel clipping boundary, it is not a clipping candidate\n");
+            getch();
+            exit(0);
+        }
+    }
+
+    // Calculate r values for clipping
+    for (k = 0; k < 4; k++) {
+        r[k] = q[k] / p[k]; // Compute the ratios
+        printf("\n r[%d] = %f", k, r[k]); // Print r values
+    }
+
+    // Initialize max and min for u1 and u2
+    max = 0;
+    min = 1;
+
+    // Determine the values of u1 and u2
+    for (k = 0; k < 4; k++) {
+        if (p[k] < 0) { // If the line is entering the clipping region
+            if (r[k] > max) {
+                max = r[k]; // Update max for u1
+            }
+        } else { // If the line is leaving the clipping region
+            if (r[k] < min) {
+                min = r[k]; // Update min for u2
+            }
+        }
+    }
+
+    u1 = max; // Assign max to u1
+    u2 = min; // Assign min to u2
+
+    // Check if the line is completely outside the window boundary
+    printf("\n u1 = %f", u1);
+    printf("\n u2 = %f", u2);
+    if (u1 > u2) {
+        printf("\nLine is completely outside the window boundary");
+        getch();
+        exit(0);
+    }
+
+    // Calculate the clipped line segment coordinates
+    xi = x1 + (u1 * dx); // x-coordinate of the start of the clipped line
+    yi = y1 + (u1 * dy); // y-coordinate of the start of the clipped line
+    xii = x1 + (u2 * dx); // x-coordinate of the end of the clipped line
+    yii = y1 + (u2 * dy); // y-coordinate of the end of the clipped line
+
+    // Draw the clipped line segment
+    rectangle(xwmin, ywmin, xwmax, ywmax); // Draw the clipping window again
+    setcolor(5); // Change color for the clipped line
+    line(xi, yi, xii, yii); // Draw the clipped line segment
+
+    getch(); // Wait for user input
+    closegraph(); // Close graphics mode
+}

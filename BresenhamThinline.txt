@@ -1,0 +1,63 @@
+// Title: Bresenham's Line Algorithm (THIN LINE)
+// Description: Program to draw a Thin Line using Bresenham's Line Drawing Algorithm
+
+#include <stdio.h>
+#include <graphics.h>
+#include <stdlib.h>
+
+int main(void) {
+    // Request auto detection of graphics driver
+    int gdriver = DETECT, gmode;
+    int i, x, y, x1, y1, x2, y2, dx, dy, length, P0;
+
+    // Prompt user for starting coordinates of the line
+    printf("Enter the starting coordinates of line: ");
+    scanf("%d %d", &x1, &y1); // Read starting coordinates
+
+    // Prompt user for ending coordinates of the line
+    printf("Enter the ending coordinates of line: ");
+    scanf("%d %d", &x2, &y2); // Read ending coordinates
+
+    // Initialize the graphics mode
+    initgraph(&gdriver, &gmode, "");
+
+    // Calculate the differences in x and y directions
+    dx = abs(x2 - x1); // Horizontal distance
+    dy = abs(y2 - y1); // Vertical distance
+
+    // Determine the length of the line based on the larger difference
+    if (dx > dy) {
+        length = dx; // Use dx if it's greater
+    } else {
+        length = dy; // Otherwise use dy
+    }
+
+    // Set the initial pixel position to starting coordinates
+    putpixel(x1, y1, 2); // Draw the starting pixel with color 2 (e.g., green)
+    x = x1; // Initialize x position
+    y = y1; // Initialize y position
+
+    // Calculate the decision parameter for Bresenham's algorithm
+    P0 = 2 * dy - dx; // Initial decision variable
+
+    // Loop to draw the line using Bresenham's algorithm
+    for (i = 1; i <= length; i++) {
+        // If the decision parameter is less than 0
+        if (P0 < 0) {
+            x = x + 1; // Move to the right
+            y = y + 0; // No vertical movement
+            putpixel(x, y, 2); // Draw the pixel at the new position
+            P0 = P0 + 2 * dy; // Update the decision variable
+        } else {
+            x = x + 1; // Move to the right
+            y = y + 1; // Move up
+            putpixel(x, y, 2); // Draw the pixel at the new position
+            P0 = P0 + 2 * dy - 2 * dx; // Update the decision variable
+        }
+    }
+
+    // Clean up
+    getch(); // Wait for a key press
+    closegraph(); // Close the graphics mode
+    return 0; // Exit the program
+}
