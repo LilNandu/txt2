@@ -1,0 +1,46 @@
+/*
+Experiment 1 -
+Title: C program for character generation
+Description: Program to draw 'CG' using Bit Map Method (Frame Buffer)
+*/
+
+#include<stdio.h>
+#include<graphics.h>
+
+void main()
+{
+    // Graphics driver and mode initialization
+    int gd = DETECT, gm, i, j;
+
+    // 2D array representing the bitmap pattern of 'CG'
+    int a[20][20] =
+    {
+        {0,0,0,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,0,0},
+        {0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0},
+        {0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,1,0},
+        {1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0},
+        {0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0},
+        {0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0},
+        {0,0,0,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0}
+    };
+
+    // Initialize the graphics mode with auto-detection
+    initgraph(&gd, &gm, "");
+
+    // Loop through each element of the array to draw the character
+    for(i = 0; i < 19; i++)
+    {
+        for(j = 0; j < 19; j++)
+        {
+            // If the current element is 1, draw a pixel at the corresponding position
+            if(a[i][j] == 1)
+                putpixel(200 + j, 200 + i, WHITE);
+        }
+    }
+
+    // Wait for the user to press a key before closing the graphics window
+    getch();
+}
